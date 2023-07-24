@@ -33,6 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('user/trashed', 'UserController@trashed')->name('user.trashed');
+    Route::patch('user/restore', 'UserController@restore')->name('user.restore');
+    Route::delete('user/trashed', 'UserController@delete')->name('user.delete');
+    Route::resource('user', UserController::class);
 });
 
 require __DIR__.'/auth.php';

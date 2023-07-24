@@ -17,5 +17,9 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+
+        @section('content')
     </body>
+    @section('scripts')
+    <script src="{{ mix('js/app.js') }}"></script>
 </html>
