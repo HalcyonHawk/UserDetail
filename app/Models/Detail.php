@@ -14,10 +14,10 @@ class Detail extends Model
     protected $guarded = [];
 
     /**
-     * A detail has many users
+     * A detail belongs to a user
      */
     public function users()
     {
-        return $this->hasMany('App\Models\User', 'user_id', 'id');
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 }

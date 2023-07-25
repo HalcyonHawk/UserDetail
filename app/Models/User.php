@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Events\UserSavedEvent;
 
 class User extends Authenticatable
 {
@@ -45,14 +46,29 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->firstname + " " + $this->lastname;
+        return $this->firstname . " " . $this->MiddleInitial . ". " . $this->lastname;
+    }
+
+    public function getMiddleInitialAttribute()
+    {
+        return substr($user->middlename, 0, 1);
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->photo ?? "http://localhost/noimage.png";
+    }
+
+    public function getGenderAttribute()
+    {
+        return $this->prefixname === "Mr." ? "Male" : "Female";
     }
 
     /**
-     * A user belongs to a detail
+     * A user has many details
      */
     public function detail()
     {
-        return $this->belongsTo('App\Models\Detail', 'detail_id', 'id');
+        return $this->hasMany('App\Models\Detail', 'detail_id', 'id');
     }
 }
