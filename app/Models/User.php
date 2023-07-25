@@ -64,6 +64,13 @@ class User extends Authenticatable
         return $this->prefixname === "Mr." ? "Male" : "Female";
     }
 
+    public function getProfilePhotoAttribute()
+    {
+        return $this->photo
+            ? '/storage/' . $this->photo
+            : '/images/default.jpg';
+    }
+
     /**
      * A user has many details
      */
