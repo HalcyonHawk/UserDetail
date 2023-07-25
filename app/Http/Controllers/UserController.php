@@ -9,6 +9,7 @@ use App\Events\UserSavedEvent;
 use \App\Http\Requests\StoreUserRequest;
 use \App\Http\Requests\UpdateUserRequest;
 use App\Helpers\ImageHelper;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -19,7 +20,9 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return view('users.index', ['users' => $users]);
+        //Change to using Inertia
+        return Inertia::render('User/Index', ['users' => $users]);
+        //return view('users.index', ['users' => $users]);
     }
 
     /**
@@ -27,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        return Inertia::render('User/Create');
     }
 
     /**
@@ -36,7 +39,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         //Default when a user has no image
-        $storedFilename = 'noimage.jpg';
+        $storedFilename = 'default.jpg';
         //If a photo was uploaded
         if ($request->hasFile('photo')) {
             //Use Helper for logic so that code isn't repeated for updating photo
@@ -61,7 +64,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('user.show', ['user' => $user]);
+        return Inertia::render('User/Show', ['user' => $user]);
     }
 
     /**
@@ -69,7 +72,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('user.edit', ['user' => $user]);
+        return Inertia::render('User/Edit', ['user' => $user]);
     }
 
     /**
@@ -107,7 +110,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $meterReading->update(['deleted_at' => now()]);
+        $meterReading->delete();
 
         return redirect()->route('user.index')
             ->with('message', 'User soft deleted');
@@ -120,7 +123,7 @@ class UserController extends Controller
     {
         $trashed = User::onlyTrashed()->get();
 
-        return view('user.trashed', ['user' => $trashed]);
+        return Inertia::render('User/Trashed', ['user' => $trashed]);
     }
 
     /**
@@ -139,7 +142,7 @@ class UserController extends Controller
      */
     public function delete(User $user)
     {
-        $user->delete();
+        $user->forceDelete();
 
         return redirect()->route('user.index')
             ->with('message', 'User deleted');
