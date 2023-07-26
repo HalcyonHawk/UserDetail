@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PrefixApiController;
 
 use App\Http\Controllers\PrefixController;
 
@@ -20,7 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/prefixes', [PrefixApiController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/prefixes', [PrefixApiController::class, 'index']);
+    //
 });

@@ -8,6 +8,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+
 </script>
 
 <template>
@@ -35,7 +36,7 @@ const showingNavigationDropdown = ref(false);
                             </div>
 
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('user')" :active="route().current('user')">
+                                <NavLink :href="route('user.index')" :active="route().current('user.index')">
                                     Users
                                 </NavLink>
                             </div>
@@ -51,7 +52,7 @@ const showingNavigationDropdown = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {{ $page.props.auth.user.name }}
+                                                {{ $page.props.auth.user.firstname }}
 
                                                 <svg
                                                     class="ml-2 -mr-0.5 h-4 w-4"
@@ -120,6 +121,12 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('user.index')" :active="route().current('user.index')">
+                            Users
                         </ResponsiveNavLink>
                     </div>
 

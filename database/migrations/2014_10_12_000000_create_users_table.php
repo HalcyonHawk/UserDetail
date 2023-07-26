@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            //Adds deleted_at for soft delete
+            $table->softDeletes();
         });
 
         Schema::table('users', function($table) {

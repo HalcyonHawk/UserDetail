@@ -18,13 +18,15 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->string('status')->default(1);
             $table->string('type')->default('detail');
-            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
 
         Schema::table('details', function($table) {
             $table->index('type');
             $table->index('key');
+            //Add relationship so that it deletes details for a user when the user is deleted
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
          });
     }
 

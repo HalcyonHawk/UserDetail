@@ -44,6 +44,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Needed to access attributes with vue
+     */
+    protected $appends = ['fullName', 'middleInitial', 'profilePhoto', 'gender'];
+
+
     public function getFullNameAttribute()
     {
         return $this->firstname . " " . $this->MiddleInitial . ". " . $this->lastname;
@@ -51,12 +57,7 @@ class User extends Authenticatable
 
     public function getMiddleInitialAttribute()
     {
-        return substr($user->middlename, 0, 1);
-    }
-
-    public function getAvatarAttribute()
-    {
-        return $this->photo ?? "http://localhost/noimage.png";
+        return substr($this->middlename, 0, 1);
     }
 
     public function getGenderAttribute()
