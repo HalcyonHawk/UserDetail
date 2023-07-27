@@ -37,8 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('user/trashed', 'App\Http\Controllers\UserController@trashed')->name('user.trashed');
-    Route::patch('user/restore', 'App\Http\Controllers\UserController@restore')->name('user.restore');
-    Route::delete('user/trashed', 'App\Http\Controllers\UserController@delete')->name('user.delete');
+    Route::patch('user/{user}/restore', 'App\Http\Controllers\UserController@restore')->name('user.restore');
+    Route::delete('user/{user}/delete', 'App\Http\Controllers\UserController@delete')->name('user.delete');
     Route::resource('user', UserController::class);
 });
 

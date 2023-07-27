@@ -20,8 +20,21 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        //Change to using Inertia
-        return Inertia::render('User/Index', ['users' => $users]);
+        //Pass urls and users
+        return Inertia::render('User/Index', [
+            'users' => $users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'firstname' => $user->firstname,
+                    'email' => $user->email,
+                    'type' => $user->type,
+                    'edit_url' => route('user.edit', ['user' => $user]),
+                    'destroy_url' => route('user.destroy', ['user' => $user])
+                ];
+            }),
+            'create_url' => route('user.create'),
+            'trashed_url' => route('user.trashed'),
+        ]);
         //return view('users.index', ['users' => $users]);
     }
 
@@ -30,7 +43,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('User/Create');
+        return Inertia::render('User/Create', [
+            'store_url' => route('user.store')
+        ]);
     }
 
     /**
@@ -38,8 +53,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //Default when a user has no image
-        $storedFilename = 'default.jpg';
+        //Use null when no photo uploaded. Default displayed from logic in model
+        $storedFilename = null;
         //If a photo was uploaded
         if ($request->hasFile('photo')) {
             //Use Helper for logic so that code isn't repeated for updating photo
@@ -64,7 +79,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return Inertia::render('User/Show', ['user' => $user]);
+        return Inertia::render('User/Show', [
+            'user' => $user,
+            'edit_url' => route('user.edit', ['user' => $user]),
+            'delete_url' => route('user.delete', ['user' => $user])
+        ]);
     }
 
     /**
@@ -72,7 +91,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return Inertia::render('User/Edit', ['user' => $user]);
+        return Inertia::render('User/Edit', [
+            'user' => $user,
+            'update_url' => route('user.update', ['user' => $user])
+        ]);
     }
 
     /**
@@ -110,7 +132,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $meterReading->delete();
+        $user->delete();
 
         return redirect()->route('user.index')
             ->with('message', 'User soft deleted');
@@ -121,9 +143,23 @@ class UserController extends Controller
      */
     public function trashed()
     {
-        $trashed = User::onlyTrashed()->get();
+        $users = User::onlyTrashed()->get();
 
-        return Inertia::render('User/Trashed', ['user' => $trashed]);
+        return Inertia::render('User/Trashed', [
+            'users' => $users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'fullName' => $user->fullName,
+                    'email' => $user->email,
+                    'type' => $user->type,
+                    'deleted_at' => $user->deleted_at,
+                    'restore_url' => route('user.restore', ['user' => $user]),
+                    'force_delete_url' => route('user.delete', ['user' => $user])
+                ];
+            }),
+            'index_url' => route('user.index')
+        ]);
+        //return Inertia::render('User/Trashed', ['users' => $trashed]);
     }
 
     /**

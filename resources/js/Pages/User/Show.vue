@@ -3,6 +3,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Link } from '@inertiajs/vue3';
+import { Inertia } from '@inertiajs/inertia'
 
 </script>
 
@@ -18,18 +19,17 @@ import { Link } from '@inertiajs/vue3';
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-
-                        <PrimaryButton>
-                            <Link :href="route('user.index')">
+                        <Link :href="route('user.index')">
+                            <PrimaryButton>
                                 View All Users
-                            </Link>
-                        </PrimaryButton>
+                            </PrimaryButton>
+                        </Link>
 
-                        <PrimaryButton>
-                            <Link :href="route('user.edit', {user: user})">
+                        <Link :href="route('user.edit', {user: user})">
+                            <PrimaryButton>
                                 Edit
-                            </Link>
-                        </PrimaryButton>
+                            </PrimaryButton>
+                        </Link>
 
                         <DangerButton @click="deleteUser(user)">
                             Delete

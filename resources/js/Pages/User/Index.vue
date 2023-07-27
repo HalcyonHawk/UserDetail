@@ -4,12 +4,12 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Inertia } from '@inertiajs/inertia'
+
 
 </script>
 
 <template>
-    <Head title="Users" />
-
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Users</h2>
@@ -18,17 +18,17 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <PrimaryButton>
-                    <Link :href="route('user.create')">
+                <Link :href="route('user.create')">
+                    <PrimaryButton>
                         Create
-                    </Link>
-                </PrimaryButton>
+                    </PrimaryButton>
+                </Link>
 
-                <SecondaryButton>
-                    <Link :href="route('user.trashed')">
+                <Link :href="route('user.trashed')">
+                    <SecondaryButton>
                         Deleted Users
-                    </Link>
-                </SecondaryButton>
+                    </SecondaryButton>
+                </Link>
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900" v-if="users">
@@ -44,18 +44,18 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.type }}</td>
                                 <td>
-                                    <PrimaryButton>
-                                        <Link :href="route('user.show', {user: user})">
+                                    <Link :href="route('user.show', {user: user})">
+                                        <PrimaryButton>
                                             View
-                                        </Link>
-                                    </PrimaryButton>
+                                        </PrimaryButton>
+                                    </Link>
                                 </td>
                                 <td>
-                                    <PrimaryButton>
-                                        <Link :href="route('user.edit', {user: user})">
+                                    <Link :href="route('user.edit', {user: user})">
+                                        <PrimaryButton>
                                             Edit
-                                        </Link>
-                                    </PrimaryButton>
+                                        </PrimaryButton>
+                                    </Link>
                                 </td>
                                 <td>
                                     <DangerButton @click="deleteUser(user)">
@@ -96,7 +96,22 @@ export default {
     methods: {
         deleteUser(user) {
             if (confirm('Are you sure?')) {
-                Inertia.delete(`/users/${user.id}`);
+                //this.$inertia.delete(user.delete_url);
+                Inertia.post(user.destroy_url, {
+                    _method: 'delete'
+                },
+                {
+                    onError: error => {
+                        console.error(error)
+                    },
+                    onSuccess: page => {
+                        console.log(page)
+                    },
+                    onComplete: () => {
+                        console.log("")
+
+                    }
+                })
             }
         },
     },

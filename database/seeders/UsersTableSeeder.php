@@ -23,7 +23,6 @@ class UsersTableSeeder extends Seeder
                 'middlename' => 'Doe',
                 'lastname' => 'Smith',
                 'suffixname' => 'Jr',
-                'photo' => 'default.jpg', // Replace with the actual photo file name or path
                 'type' => 'user',
                 'email' => 'john.doe@example.com',
                 'email_verified_at' => Carbon::now(),

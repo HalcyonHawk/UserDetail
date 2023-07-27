@@ -3,7 +3,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { ref, computed, onMounted } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import { route } from '@/utils';
 
 const props = defineProps({
     user: {
@@ -12,41 +13,46 @@ const props = defineProps({
     }
 });
 
-let form = ref({
-    prefixname: props.user ? props.user.prefixname : null,
-    firstname: props.user ? props.user.firstname : '',
-    middlename: props.user ? props.user.middlename : '',
-    lastname: props.user ? props.user.lastname : '',
-    suffixname: props.user ? props.user.suffixname : '',
-    email: props.user ? props.user.email : '',
-    photo: '',
-    password: '',
+//If user, use edit form. Else, use create form
+let form = null;
+if (props.user) {
+    form = useForm(`EditUser:${user.id}`, {
+        _method: 'put',
+        prefixname: props.user.prefixname,
+        firstname: props.user.firstname,
+        middlename: props.user.middlename,
+        lastname: props.user.lastname,
+        suffixname: props.user.suffixname,
+        email: props.user.email,
+        password: null,
+        photo: null,
+    })
+} else {
+    form = useForm('CreateUser', {
+        prefixname: null,
+        firstname: '',
+        middlename: '',
+        lastname: '',
+        suffixname: '',
+        email: '',
+        photo: '',
+        password: '',
 
-    errors: {}
-});
+        errors: {}
+    })
+}
 
-let formAction = computed(() => {
-    return props.user
-        ? `route('user.update', ['user' => ${props.user.id}])`
-        : `route('user.store')`;
-});
-
-// //Get prefixes to choose from
-// let prefixes = ref([]);
-// onMounted(async () => {
-//     fetch('/api/prefixes')
-//     .then(response => response.json())
-//     .then(data => {
-//         prefixes = data.prefixes;
-//     })
-//     .catch(error => console.error('Error fetching prefixes:', error));
-//     //prefixes.value = data.prefixes.options;
-// });
+//Determine if update or store
+function formSubmit() {
+    props.user
+    ? form.post(route('user.update', user.id).url())
+    : form.post(route('user.store').url())
+}
 </script>
 
 
 <template>
-    <form :action="formAction" method="post">
+    <form @submit.prevent="formSubmit()" method="post">
         <!-- <div>
             <InputLabel for="prefixname" value="Prefix" />
 
