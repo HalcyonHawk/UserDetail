@@ -9,10 +9,14 @@ import { useForm } from '@inertiajs/vue3';
 const props = defineProps({
     user: {
         type: Object
+    },
+    update_url: {
+        type: String,
+        required: true
     }
 });
 
-const form = useForm(`EditUser:${user.id}`, {
+const form = useForm(`EditUser:${props.user.id}`, {
     _method: 'put',
     prefixname: props.user.prefixname,
     firstname: props.user.firstname,
@@ -25,7 +29,7 @@ const form = useForm(`EditUser:${user.id}`, {
 })
 
 const formSubmit = () => {
-    form.post(update_url);
+    form.post(props.update_url);
 };
 </script>
 

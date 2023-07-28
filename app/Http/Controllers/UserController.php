@@ -119,7 +119,9 @@ class UserController extends Controller
         }
 
 
-        $user = $user->update($request->except('_method'));
+        $user->update($request->except('_method'));
+
+        $user = User::find($user->id);
 
         //Update user details
         event(new UserSavedEvent($user));
