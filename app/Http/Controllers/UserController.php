@@ -61,10 +61,11 @@ class UserController extends Controller
             $storedFilename = ImageHelper::uploadImage($request->file('photo'));
         }
 
-        $request['photo'] = $storedFilename;
-        $request['password'] = bcrypt($request->password);
+        $input = $request->all();
+        $input['photo'] = $storedFilename;
+        $input['password'] = bcrypt($request->password);
 
-        $user = User::create($request);
+        $user = User::create($input);
 
         //Update user details
         event(new UserSavedEvent($user));
