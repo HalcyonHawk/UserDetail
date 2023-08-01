@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function getGenderAttribute()
     {
-        return $this->gender === "Mr" ? "Male" : "Female";
+        return $this->prefixname === "Mr" ? "Male" : "Female";
     }
 
     public function getProfilePhotoAttribute()
