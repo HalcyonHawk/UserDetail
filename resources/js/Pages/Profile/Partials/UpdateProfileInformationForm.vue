@@ -37,7 +37,7 @@ const form = useForm({
             </p>
         </header>
 
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6" enctype="multipart/form-data">
             <div>
                 <InputLabel for="prefixname" value="Prefix" />
 
@@ -117,7 +117,7 @@ const form = useForm({
                     id="photo"
                     type="file"
                     class="mt-1 block w-full"
-                    v-on:change="handleFileUpload($event)"
+                    name="photo"
                 />
 
                 <InputError class="mt-2" :message="form.errors.photo" />

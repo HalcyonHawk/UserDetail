@@ -42,7 +42,7 @@ const formSubmit = () => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <form @submit.prevent="formSubmit()" method="post">
+                    <form @submit.prevent="formSubmit()" method="post" enctype="multipart/form-data">
                         <div>
                             <InputLabel for="prefixname" value="Prefix" />
 
@@ -122,7 +122,7 @@ const formSubmit = () => {
                                 id="photo"
                                 type="file"
                                 class="mt-1 block w-full"
-                                v-on:change="handleFileUpload($event)"
+                                name="photo"
                             />
 
                             <InputError class="mt-2" :message="form.errors.photo" />
