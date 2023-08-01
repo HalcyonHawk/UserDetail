@@ -18,6 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        //TODO: Paginate, add more checks
         $users = User::all();
 
         //Pass urls and users

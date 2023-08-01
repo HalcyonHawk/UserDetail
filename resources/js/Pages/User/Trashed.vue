@@ -81,9 +81,7 @@ export default {
         },
         restoreUser(user) {
             if (confirm('Are you sure you want to restore this user?')) {
-                Inertia.post(user.restore_url, {
-                    _method: 'patch'
-                })
+                Inertia.post(user.restore_url)
             }
         },
     },

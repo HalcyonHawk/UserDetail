@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->firstname . " " . $this->MiddleInitial . ". " . $this->lastname;
+        return $this->firstname . " " . $this->middleInitial . ". " . $this->lastname;
     }
 
     public function getMiddleInitialAttribute()
@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function getGenderAttribute()
     {
-        return $this->prefixname === "Mr" ? "Male" : "Female";
+        return $this->gender === "Mr" ? "Male" : "Female";
     }
 
     public function getProfilePhotoAttribute()

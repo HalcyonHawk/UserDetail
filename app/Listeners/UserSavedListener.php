@@ -25,9 +25,9 @@ class UserSavedListener
     {
         $user = $event->user;
 
-        $this->saveDetail('Full name', $user->fullname, $user->id);
-        $this->saveDetail('Middle Initial', $user->inital, $user->id);
-        $this->saveDetail('Avatar', $user->photo, $user->id);
+        $this->saveDetail('Full name', $user->fullName, $user->id);
+        $this->saveDetail('Middle Initial', $user->middleInitial, $user->id);
+        $this->saveDetail('Avatar', $user->profilePhoto, $user->id);
         $this->saveDetail('Gender', $user->gender, $user->id);
     }
 
